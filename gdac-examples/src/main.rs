@@ -24,8 +24,7 @@ fn main() -> Result<()> {
     // Setup environment-sensitive logging with tracing
     // This respects RUST_LOG environment variable
     let default_filter = if args.verbose { "debug" } else { "info" };
-    let filter = std::env::var("RUST_LOG")
-        .unwrap_or_else(|_| default_filter.to_string());
+    let filter = std::env::var("RUST_LOG").unwrap_or_else(|_| default_filter.to_string());
 
     tracing_subscriber::fmt()
         .with_env_filter(filter)
@@ -37,32 +36,38 @@ fn main() -> Result<()> {
 
     // Demonstrate basic usage
     info!("gdac library initialized successfully");
-    
+
     // Create a simple Lua context
     let lua = mlua::Lua::new();
-    
+
     // Example: Execute simple Lua code
     let result: i32 = lua.load("return 42").eval()?;
     info!("Lua execution test: 42 = {}", result);
-    
+
     // Example: Create a Lua table
-    lua.load(r#"
+    lua.load(
+        r#"
         config = {
             name = "example",
             value = 123
         }
-    "#).exec()?;
-    
+    "#,
+    )
+    .exec()?;
+
     let globals = lua.globals();
     let config: mlua::Table = globals.get("config")?;
     let name: String = config.get("name")?;
     let value: i32 = config.get("value")?;
-    
+
     info!("Loaded Lua config: name={}, value={}", name, value);
-    
+
     if args.verbose {
         debug!("Verbose mode enabled - showing additional details");
-        debug!("Lua version: {}", mlua::Lua::new().load("return _VERSION").eval::<String>()?);
+        debug!(
+            "Lua version: {}",
+            mlua::Lua::new().load("return _VERSION").eval::<String>()?
+        );
     }
 
     info!("Example completed successfully");
