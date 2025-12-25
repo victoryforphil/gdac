@@ -1,0 +1,13 @@
+[package]
+name = "gdac"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "A library to define serdable Rust structs and configure them using Lua-based configs"
+
+[dependencies]
+anyhow.workspace = true
+thiserror.workspace = true
+mlua.workspace = true
+serde.workspace = true
