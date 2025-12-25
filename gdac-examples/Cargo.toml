@@ -1,0 +1,19 @@
+[package]
+name = "gdac-examples"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Example applications demonstrating gdac usage"
+
+[[bin]]
+name = "gdac-example"
+path = "src/main.rs"
+
+[dependencies]
+gdac = { path = "../gdac" }
+anyhow.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+serde = { workspace = true, features = ["derive"] }
